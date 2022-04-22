@@ -191,12 +191,12 @@ class MazeView2D:
 
     @property
     def get_value(self):
-        #imx = int(self.SCREEN_W - self.__robot[0]*self.CELL_W)
-        #imy = int(self.SCREEN_H - self.__robot[1]*self.CELL_H)
+        imx = int(self.SCREEN_W - self.__robot[0]*self.CELL_W)
+        imy = int(self.SCREEN_H - self.__robot[1]*self.CELL_H)
         #print(self.x,self.y)
         #print(self.image.get_at((imx,imy)))
-        imx = int(self.__robot[0])
-        imy = int(self.__robot[1])
+        #imx = int(self.__robot[0])
+        #imy = int(self.__robot[1])
         return np.mean(self.image.get_at((imx,imy)))
     
     @property
