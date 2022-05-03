@@ -135,7 +135,7 @@ class MazeView2D:
 
 
 
-    def __draw_robot(self, colour=(150, 0, 0), transparency=255):
+    def __draw_robot(self, colour=(200, 0, 0), transparency=255):
 
         if self.__enable_render is False:
             return
