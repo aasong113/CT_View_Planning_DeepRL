@@ -104,12 +104,12 @@ class MazeView2D:
         
     def new_entrance(self):
 
-        self.__draw_entrance(transparency=0)
+        #self.__draw_entrance(transparency=0)
         #self.__robot = np.zeros(2, dtype=int)
         x_start = int(random.randrange(self.__grid.MAZE_W))
         y_start = int(random.randrange(self.__grid.MAZE_H))
         self.__entrance = [x_start,y_start]
-        self.__draw_entrance(transparency=255)
+        #self.__draw_entrance(transparency=255)
 
     def __controller_update(self):
         if not self.__game_over:
@@ -121,7 +121,7 @@ class MazeView2D:
     def __view_update(self, mode="human"):
         if not self.__game_over:
             # update the robot's position
-            self.__draw_entrance()
+            #self.__draw_entrance()
             self.__draw_robot()
             #self.__draw_goal()
             # update the screen
