@@ -283,7 +283,10 @@ class MazeView2D:
     def robot(self):
         return self.__robot
     
-    
+    @property
+    def get_current_position(self):
+        return (self.x, self.y)
+
     @property
     def get_avg_value(self):
         x0 = self.x

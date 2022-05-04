@@ -26,6 +26,7 @@ class MazeEnv(gym.Env):
         # self.target_x = target_x
         # self.target_y = target_y
         self.min_distance = 100000
+        self.threshold_distance = 5
         
 
         self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
@@ -85,12 +86,13 @@ class MazeEnv(gym.Env):
             self.min_distance = distance_current
 
         # If this Distance_current or Distance_future equals zero then we are at the desired view. 
-        if distance_future <= 2 or distance_current <= 2:
+        if distance_future <= self.threshold_distance or distance_current <= self.threshold_distance:
             reward = 1
             done = True
             # reset the stepsize 
             self.grid_view.set_stepSize(self.initial_stepsize)
             print(self.grid_view.get_current_position)
+            print(f"current distance is: {distance_current}, and future distance is {distance_future}")
             
         else:
             # R = sign(D(Pi−1, Pt)−D(Pi, Pt))

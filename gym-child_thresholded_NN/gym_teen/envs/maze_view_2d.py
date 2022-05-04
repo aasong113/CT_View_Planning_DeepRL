@@ -25,8 +25,8 @@ class MazeView2D:
 
         #self.MazeEnvParams = MazeEnv
         # need to figure out how to get this from the MazeEnv Class. 
-        self.target_x = 135
-        self.target_y = 160
+        self.target_x = 162
+        self.target_y = 136
 
         self.COMPASS = {
         "N": (0, -1*self.__stepsize),
@@ -156,8 +156,8 @@ class MazeView2D:
                     
     def new_entrance(self):
         self.__draw_entrance(transparency=0)
-        x_start = int(random.randrange(self.SCREEN_W))
-        y_start = int(random.randrange(self.SCREEN_H))
+        x_start = int(random.randrange(0+self.width+10, self.SCREEN_W-self.width-10))
+        y_start = int(random.randrange(0+self.height+10, self.SCREEN_H-self.height-10))
         self.__entrance = [x_start,y_start]
         self.__draw_entrance(transparency=235)
 
@@ -307,16 +307,11 @@ class MazeView2D:
 
     def euclidean_distance_from_goal(self):#, MazeEnv.target_x, MazeEnv.target_y ):        
 
-        #find the center coordinate
-        self.x = int(self.__robot[0]+1)
-        self.y = int(self.__robot[1]+1)
-        w = int(self.width -1)
-        h = int(self.height-1)
-        
-        center_x = int((self.x+w)/2)
-        center_y = int((self.y+h)/2)
+        # #find the center coordinate
+        # self.x = int(self.__robot[0]+1)
+        # self.y = int(self.__robot[1]+1)
 
-        return  np.sqrt((center_x-self.target_x)**2+(center_y-self.target_y)**2)
+        return  np.sqrt((self.x-self.target_x)**2+(self.y-self.target_y)**2)
 
 
 

@@ -72,6 +72,7 @@ class MazeEnv(gym.Env):
             #self.grid_view.__draw_robot(transparency=0)
             reward = 1
             done = True
+            print(self.grid_view.get_current_position)
         else:
             #reward = -0.1*(self.grid_view.get_value)
             #reward = -(50-np.exp(self.grid_view.get_avg_value/30))
