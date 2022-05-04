@@ -4,6 +4,7 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 from gym_teen.envs.maze_view_2d import MazeView2D
+import matplotlib.pyplot as plt
 
 
 class MazeEnv(gym.Env):
@@ -14,6 +15,7 @@ class MazeEnv(gym.Env):
     ACTION = ["N", "S", "E", "W"]
 
     def __init__(self, maze_file = None, width=None,height=None, mode=None, enable_render=True):
+    #def __init__(self, maze_file = None, width=None,height=None,target_x = None, target_y = None, mode=None, enable_render=True):
     #def __init__(self,maze_file=None,grid_size=(9,9),mode=None,enable_render=True):
 
         self.viewer = None
@@ -21,8 +23,13 @@ class MazeEnv(gym.Env):
         self.isopen = True
         self.width = width
         self.height = height
+        # self.target_x = target_x
+        # self.target_y = target_y
+        self.min_distance = 100000
+        
 
         self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
+        self.initial_stepsize = self.grid_view.get_stepsize
         self.grid_size = self.grid_view.SCREEN_SIZE
         self.maxval = -100000
 
@@ -56,27 +63,46 @@ class MazeEnv(gym.Env):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
+
+    #TODO
+
     def step(self, action):
+        
+        # D(P_{i-1}, P_t)
+        distance_current = self.grid_view.euclidean_distance_from_goal
+        if distance_current < self.min_distance:
+            self.min_distance = distance_current
+
+        # move the robot. 
         if isinstance(action, int):
             self.grid_view.move_robot(self.ACTION[action])
         else:
             self.grid_view.move_robot(action)
 
-            
-        #if np.array_equal(self.grid_view.robot, self.grid_view.goal):
-        ## dude idk. 
-        #if 47 < self.grid_view.get_avg_value < 50:
-        #print(self.grid_view.get_avg_value)
-        #if 115 < self.grid_view.get_avg_value:
-        if self.grid_view.get_avg_value > 130:
-            #self.grid_view.__draw_robot(transparency=0)
+        # D(P_i, P_t)
+        distance_future = self.grid_view.euclidean_distance_from_goal
+        if distance_future < self.min_distance:
+            self.min_distance = distance_current
+
+        # If this Distance_current or Distance_future equals zero then we are at the desired view. 
+        if distance_future <= 2 or distance_current <= 2:
             reward = 1
             done = True
+            # reset the stepsize 
+            self.grid_view.set_stepSize(self.initial_stepsize)
+            print(self.grid_view.get_current_position)
+            
         else:
-            #reward = -0.1*(self.grid_view.get_value)
-            #reward = -(50-np.exp(self.grid_view.get_avg_value/30))
-            reward = -(100-np.exp(self.grid_view.get_avg_value/32))
+            # R = sign(D(Pi−1, Pt)−D(Pi, Pt))
+            reward = np.sign(distance_current - distance_future )
             done = False
+
+        # Step size needs to be adaptive. 
+        # if the distance current or distance future is close, then divide it by 2. 
+        if distance_current <= self.min_distance/2 or distance_future <= self.min_distance/2:
+            self.grid_view.set_stepSize(int(self.grid_view.get_stepsize/2))
+            print(f"the stepsize has decreased and is now {self.grid_view.get_stepsize}")
+
 
         self.state = self.grid_view.robot
 

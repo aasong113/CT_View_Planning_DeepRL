@@ -1,13 +1,15 @@
+from typing_extensions import Self
 import pygame
 import random
 import numpy as np
 import os
+#from gym_teen.envs.maze_env import MazeEnv
 
 
 class MazeView2D:
 
     def __init__(self, maze_name="2D CT example",
-                 width=9, height=9, screen_size=(405, 405),
+                 width=9, height=9, step_size = 10, screen_size=(405, 405),
                  has_loops=False, enable_render=True):
 
         # PyGame configurations
@@ -19,7 +21,13 @@ class MazeView2D:
 
         self.__width = width
         self.__height = height
-        self.__stepsize = 10
+        self.__stepsize = step_size
+
+        #self.MazeEnvParams = MazeEnv
+        # need to figure out how to get this from the MazeEnv Class. 
+        self.target_x = 135
+        self.target_y = 160
+
         self.COMPASS = {
         "N": (0, -1*self.__stepsize),
         "E": (1*self.__stepsize, 0),
@@ -208,14 +216,10 @@ class MazeView2D:
         x1 = self.x
         y1 = int(self.y+h)
         
-        
-
-        
-        #r = int(min(self.CELL_W, self.CELL_H)/5 + 0.5
-        #pygame.draw.rect(self.grid_layer,colour + (transparency,),(x,y,w,h))
         pygame.draw.polygon(self.grid_layer, colour+ (transparency,), [(self.x,self.y),(x1,y1),(x2,y2),(x3,y3)],width=2)
-        
-        #pygame.draw.circle(self.maze_layer, colour + (transparency,), (x, y), r)
+
+
+
 
     def __draw_entrance(self, colour=(0, 0, 150), transparency=235):
         self.__colour_cell(self.entrance,colour=colour,transparency=transparency)
@@ -297,8 +301,26 @@ class MazeView2D:
                 totval += self.get_value((iix,iij))
         return totval/npix
         
+    #TODO
+    @property
+    #Reward = Sign( D(P_{i-1}, P_t) - D(P_i, P_t) )
 
-    #@property
+    def euclidean_distance_from_goal(self):#, MazeEnv.target_x, MazeEnv.target_y ):        
+
+        #find the center coordinate
+        self.x = int(self.__robot[0]+1)
+        self.y = int(self.__robot[1]+1)
+        w = int(self.width -1)
+        h = int(self.height-1)
+        
+        center_x = int((self.x+w)/2)
+        center_y = int((self.y+h)/2)
+
+        return  np.sqrt((center_x-self.target_x)**2+(center_y-self.target_y)**2)
+
+
+
+    @property
     def get_value(self,pt):
         #print(pt)
         #imx = int(self.SCREEN_W - self.__robot[0]*self.CELL_W)
@@ -311,6 +333,15 @@ class MazeView2D:
     @property
     def entrance(self):
         return self.__entrance
+    
+    @property 
+    def get_current_position(self):
+        return (self.x, self.y)
+
+    @property
+    def get_stepsize(self):
+        return self.__stepsize
+    
 
     @property
     def game_over(self):
@@ -351,6 +382,8 @@ class MazeView2D:
     def width(self,new_val):
         self.__width = new_val
 
+    def set_stepSize(self, new_val):
+        self.__stepsize = new_val
 
 
 
