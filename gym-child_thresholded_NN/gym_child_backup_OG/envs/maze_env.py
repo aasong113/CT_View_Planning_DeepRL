@@ -68,9 +68,11 @@ class MazeEnv(gym.Env):
         
         # i like this one better. 
         # had to hardcode some limits based on the image... not ideal, you know. but here we are
+        
         if 38 < self.grid_view.get_avg_value < 44:
             reward = 1
             done = True
+
         else:
             # need to make sure this is always negative!!!
             reward = -(50-np.exp(self.grid_view.get_avg_value/12))
