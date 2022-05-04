@@ -26,7 +26,7 @@ class MazeEnv(gym.Env):
         # self.target_x = target_x
         # self.target_y = target_y
         self.min_distance = 100000
-        self.threshold_distance = 5
+        self.threshold_distance = 10
         
 
         self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
@@ -102,6 +102,11 @@ class MazeEnv(gym.Env):
         # Step size needs to be adaptive. 
         # if the distance current or distance future is close, then divide it by 2. 
         if distance_current <= self.min_distance/2 or distance_future <= self.min_distance/2:
+            self.grid_view.set_stepSize(int(self.grid_view.get_stepsize/2))
+            print(f"the stepsize has decreased and is now {self.grid_view.get_stepsize}")
+
+        # need extra condition to make the step size 1, or complete optimal tuning. 
+        if self.grid_view.get_stepsize == 2 and (distance_current <= self.min_distance or distance_future <= self.min_distance):
             self.grid_view.set_stepSize(int(self.grid_view.get_stepsize/2))
             print(f"the stepsize has decreased and is now {self.grid_view.get_stepsize}")
 
