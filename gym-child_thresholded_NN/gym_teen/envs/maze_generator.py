@@ -1,5 +1,5 @@
 import os
-from gym_child.envs.maze_view_2d import Grid
+from gym_baby.envs.maze_view_2d import Grid
 
 if __name__ == "__main__":
 

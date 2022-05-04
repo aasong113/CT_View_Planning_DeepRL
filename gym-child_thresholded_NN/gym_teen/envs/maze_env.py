@@ -1,10 +1,9 @@
 import numpy as np
 
 import gym
-import time
 from gym import error, spaces, utils
 from gym.utils import seeding
-from gym_child.envs.maze_view_2d import MazeView2D
+from gym_teen.envs.maze_view_2d import MazeView2D
 
 
 class MazeEnv(gym.Env):
@@ -12,19 +11,20 @@ class MazeEnv(gym.Env):
         "render.modes": ["human", "rgb_array"],
     }
 
-    #ACTION = ["N", "S", "E", "W"]
-    ACTION = [0, 1, 2, 3]
+    ACTION = ["N", "S", "E", "W"]
 
-    def __init__(self, maze_file = None, grid_size=None, mode=None, enable_render=True):
+    def __init__(self, maze_file = None, width=None,height=None, mode=None, enable_render=True):
+    #def __init__(self,maze_file=None,grid_size=(9,9),mode=None,enable_render=True):
 
         self.viewer = None
         self.enable_render = enable_render
         self.isopen = True
+        self.width = width
+        self.height = height
 
-
-        #self.grid_view = MazeView2D()
-        self.grid_view = MazeView2D(screen_size=(405,405),grid_size=(9,9))
-        self.grid_size = self.grid_view.grid_size
+        self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
+        self.grid_size = self.grid_view.SCREEN_SIZE
+        self.maxval = -100000
 
         # forward or backward in each dimension
         self.action_space = spaces.Discrete(2*len(self.grid_size))
@@ -61,31 +61,27 @@ class MazeEnv(gym.Env):
             self.grid_view.move_robot(self.ACTION[action])
         else:
             self.grid_view.move_robot(action)
-        
-        
-        # negative parabola - not as steep ascent (actually descent) closer to values
-        #reward = -(20-((self.grid_view.get_avg_value)**2)/20)
-        
-        # i like this one better. 
-        # had to hardcode some limits based on the image... not ideal, you know. but here we are
-        
-        if 38 < self.grid_view.get_avg_value < 44:
+
+            
+        #if np.array_equal(self.grid_view.robot, self.grid_view.goal):
+        ## dude idk. 
+        #if 47 < self.grid_view.get_avg_value < 50:
+        #print(self.grid_view.get_avg_value)
+        #if 115 < self.grid_view.get_avg_value:
+        if self.grid_view.get_avg_value > 130:
+            #self.grid_view.__draw_robot(transparency=0)
             reward = 1
             done = True
-
         else:
-            # need to make sure this is always negative!!!
-            reward = -(50-np.exp(self.grid_view.get_avg_value/12))
+            #reward = -0.1*(self.grid_view.get_value)
+            #reward = -(50-np.exp(self.grid_view.get_avg_value/30))
+            reward = -(100-np.exp(self.grid_view.get_avg_value/32))
             done = False
-            
-          
-        
-        #reward = -(0.2-((self.grid_view.get_avg_value)**2)/0.2)
 
         self.state = self.grid_view.robot
 
         info = {}
-        #done = False
+
         return self.state, reward, done, info
 
     def reset(self):
@@ -118,5 +114,11 @@ class MazeEnv(gym.Env):
 
 class MazeEnvSample5x5(MazeEnv):
 
-    def __init__(self, enable_render=True):
-        super(MazeEnvSample5x5, self).__init__(maze_file="maze2d_5x5.npy", enable_render=enable_render)
+    #def __init__(self,width,height,enable_render=True):
+        #self.width = width
+        #self.height = height
+        #super(MazeEnvSample5x5, self).__init__(maze_file="maze2d_5x5.npy", width=self.width, height=self.height, enable_render=enable_render)
+        
+    def __init__(self,width,height,enable_render=True):
+        super(MazeEnvSample5x5,self).__init__(maze_file="maze2d_5x5.npy",width=width,height=height,enable_render=enable_render)
+        

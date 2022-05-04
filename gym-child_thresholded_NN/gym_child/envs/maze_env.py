@@ -69,15 +69,10 @@ class MazeEnv(gym.Env):
         # i like this one better. 
         # had to hardcode some limits based on the image... not ideal, you know. but here we are
         
-        # For thresholded image
-        #if 38 < self.grid_view.get_avg_value < 44:
-        
-        # for Gray scale image. 
-        if 124 < self.grid_view.get_avg_value < 132:
+        if 38 < self.grid_view.get_avg_value < 44:
             reward = 1
-            print(self.grid_view.x)
-            print(self.grid_view.y)
             done = True
+
         else:
             # need to make sure this is always negative!!!
             reward = -(50-np.exp(self.grid_view.get_avg_value/12))

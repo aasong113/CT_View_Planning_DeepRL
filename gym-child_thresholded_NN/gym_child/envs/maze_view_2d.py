@@ -43,7 +43,7 @@ class MazeView2D:
             self.background = pygame.Surface(self.screen.get_size()).convert()
             # Change the background of the image
             #self.image = pygame.image.load(r'./cad_117_threshNoBin.png')
-            self.image = pygame.image.load(r'./cadaver_slice_117_grey.png')
+            self.image = pygame.image.load(r'./cad_117_threshNoBin.png')
             self.image = pygame.transform.scale(self.image,(self.screen.get_size()))
             
             self.background.fill((255, 255, 255))
