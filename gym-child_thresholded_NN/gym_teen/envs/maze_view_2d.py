@@ -34,6 +34,7 @@ class MazeView2D:
         # self.target_y = 136
         self.target_x2 = target_x2
         self.target_y2 = target_y2
+        self.background_img_path = r'./cadaver_slice_117_grey.png'
         
 
 
@@ -74,7 +75,7 @@ class MazeView2D:
         if self.__enable_render is True:
             # Create a background
             self.background = pygame.Surface(self.screen.get_size()).convert()
-            self.image = pygame.image.load(r'./cadaver_slice_117_grey.png')
+            self.image = pygame.image.load(self.background_img_path)
             self.image = pygame.transform.scale(self.image,(self.screen.get_size()))
             
             self.background.fill((255, 255, 255))
