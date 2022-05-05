@@ -8,9 +8,12 @@ import os
 
 class MazeView2D:
 
-    def __init__(self, maze_name="2D CT example",
-                 width=9, height=9, step_size = 10, screen_size=(405, 405),
+    def __init__(self, maze_name="2D CT example Grayscale",
+                 width=9, height=9, target_x2 = None, target_y2 = None, step_size = 10, screen_size=(405, 405),
                  has_loops=False, enable_render=True):
+    # def __init__(self, maze_name="2D CT example Grayscale",
+    #             width=9, height=9, step_size = 10, screen_size=(405, 405),
+    #             has_loops=False, enable_render=True):
 
         # PyGame configurations
         pygame.init()
@@ -21,12 +24,19 @@ class MazeView2D:
 
         self.__width = width
         self.__height = height
+
         self.__stepsize = step_size
 
         #self.MazeEnvParams = MazeEnv
-        # need to figure out how to get this from the MazeEnv Class. 
-        self.target_x = 162
-        self.target_y = 136
+        #(self, maze_file = None, width=None,height=None,target_x = None, target_y = None, mode=None, enable_render=True)
+
+        # self.target_x = 162
+        # self.target_y = 136
+        self.target_x2 = target_x2
+        self.target_y2 = target_y2
+        
+
+
 
         self.COMPASS = {
         "N": (0, -1*self.__stepsize),
@@ -182,24 +192,7 @@ class MazeView2D:
 
         if self.__enable_render is False:
             return
-        
-        #x = int(self.__robot[0] * self.CELL_W + self.CELL_W * 0.5 + 0.5)
-        #y = int(self.__robot[1] * self.CELL_H + self.CELL_H * 0.5 + 0.5)
-        #w = int(self.CELL_W + 0.5 -1)
-        #h = int(self.CELL_H + 0.5 -1)
-        
-        #x = int(self.__robot[0] * self.CELL_W + 0.5 + 1)
-        #y = int(self.__robot[1] * self.CELL_H + 0.5 + 1)
-        #w = int(self.CELL_W + 0.5 - 1)
-        #h = int(self.CELL_H + 0.5 - 1)
-        
-        
-        
-        #x0 = int(self.__robot[0] * self.width +1+5)
-        #y0 = int(self.__robot[1] * self.height +1)
-        
-        #self.x = int(self.__robot[0] *self.width + 1)
-        #self.y = int(self.__robot[1] *self.height + 1)
+
         self.x = int(self.__robot[0]+1)
         self.y = int(self.__robot[1]+1)
         w = int(self.width -1)
@@ -207,12 +200,10 @@ class MazeView2D:
         
         x3 = int(self.x+w)
         y3 = self.y
-        
-        #x2 = int(self.__robot[0]*self.width +1+w)
+   
         x2 = int(self.x+w)
         y2 = int(self.y+h)
         
-        #x1 = int(self.__robot[0]*self.height +1)
         x1 = self.x
         y1 = int(self.y+h)
         
@@ -220,7 +211,7 @@ class MazeView2D:
 
 
 
-
+# Do not use this because it puts a blue square which is bad for model learning. 
     def __draw_entrance(self, colour=(0, 0, 150), transparency=235):
         self.__colour_cell(self.entrance,colour=colour,transparency=transparency)
         
@@ -283,6 +274,12 @@ class MazeView2D:
         # true if cell is still within bounds after move
         return 0 <= x < self.SCREEN_W and 0 <= y < self.SCREEN_H
 
+    def set_target_pos(self, x,y):
+        self.target_x2 = x
+        self.target_y2 = y
+        print(f"set the target x to {self.target_x2}")
+        print(f"set the target y to {self.target_y2}")
+
     @property
     def robot(self):
         return self.__robot
@@ -311,7 +308,7 @@ class MazeView2D:
         # self.x = int(self.__robot[0]+1)
         # self.y = int(self.__robot[1]+1)
 
-        return  np.sqrt((self.x-self.target_x)**2+(self.y-self.target_y)**2)
+        return  np.sqrt((self.x-self.target_x2)**2+(self.y-self.target_y2)**2)
 
 
 

@@ -14,8 +14,9 @@ class MazeEnv(gym.Env):
 
     ACTION = ["N", "S", "E", "W"]
 
-    def __init__(self, maze_file = None, width=None,height=None, mode=None, enable_render=True):
-    #def __init__(self, maze_file = None, width=None,height=None,target_x = None, target_y = None, mode=None, enable_render=True):
+    #def __init__(self, maze_file = None, width=None,height=None, mode=None, enable_render=True):
+    
+    def __init__(self, maze_file = None, width=None,height=None,target_x = None, target_y = None, mode=None, enable_render=True):
     #def __init__(self,maze_file=None,grid_size=(9,9),mode=None,enable_render=True):
 
         self.viewer = None
@@ -23,13 +24,23 @@ class MazeEnv(gym.Env):
         self.isopen = True
         self.width = width
         self.height = height
-        # self.target_x = target_x
-        # self.target_y = target_y
+
+
+        self.target_x2 = target_x
+        self.target_y2 = target_y
+        
         self.min_distance = 100000
         self.threshold_distance = 10
+
+        # This is a distance queue that will be used to detect osciallations when the model is close to the solution. 
+        # It will take the standadrd deviations of the (x,y) coordinates and if they are less than a threshold and 
+        # close to the target, then the episode will be done. 
+        self.distance_queue = []
         
 
-        self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
+        self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height, target_x2 = self.target_x2, target_y2 = self.target_y2)
+        #self.grid_view = MazeView2D(screen_size=(405,405),width=self.width,height = self.height)
+        
         self.initial_stepsize = self.grid_view.get_stepsize
         self.grid_size = self.grid_view.SCREEN_SIZE
         self.maxval = -100000
@@ -63,6 +74,11 @@ class MazeEnv(gym.Env):
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
+
+    def set_target_xy(self, x, y):
+        self.target_x2 = x
+        self.target_y2 = y
+        self.grid_view.set_target_pos(self.target_x2, self.target_y2)
 
 
     #TODO
