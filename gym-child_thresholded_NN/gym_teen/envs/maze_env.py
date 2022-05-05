@@ -109,11 +109,27 @@ class MazeEnv(gym.Env):
             self.grid_view.set_stepSize(self.initial_stepsize)
             print(self.grid_view.get_current_position)
             print(f"current distance is: {distance_current}, and future distance is {distance_future}")
-            
         else:
             # R = sign(D(Pi−1, Pt)−D(Pi, Pt))
             reward = np.sign(distance_current - distance_future )
             done = False
+
+        # Add current position to a distance queue, this will be used to detect oscillation around either a corner or the goal. 
+        self.distance_queue.append(self.grid_view.get_current_position)
+        if len(self.distance_queue) >= 10:
+
+            # if the standard deviation of all the points is small, and the distance is smaller than our threshold + a constant then its oscillating near the target.
+            if np.std(self.distance_queue) <= 8 and (distance_future <= self.threshold_distance+4 or distance_current <= self.threshold_distance+4):
+                reward = 1
+                done = True
+                # reset the stepsize 
+                self.grid_view.set_stepSize(self.initial_stepsize)
+                print(self.grid_view.get_current_position)
+                print(f"We STOPPED USING THE OSCILLATION: current distance is: {distance_current}, and future distance is {distance_future}")
+
+            # remove the front element. 
+            self.distance_queue.pop(0)
+
 
         # Step size needs to be adaptive. 
         # if the distance current or distance future is close, then divide it by 2. 
