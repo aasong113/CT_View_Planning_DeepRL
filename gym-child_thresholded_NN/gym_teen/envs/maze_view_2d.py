@@ -9,7 +9,7 @@ import os
 class MazeView2D:
 
     def __init__(self, maze_name="2D CT example Grayscale",
-                 width=9, height=9, target_x2 = None, target_y2 = None, step_size = 10, screen_size=(405, 405),
+                 width=9, height=9, target_x2 = None, target_y2 = None,background_img_path = None,  step_size = 10, screen_size=(405, 405),
                  has_loops=False, enable_render=True):
     # def __init__(self, maze_name="2D CT example Grayscale",
     #             width=9, height=9, step_size = 10, screen_size=(405, 405),

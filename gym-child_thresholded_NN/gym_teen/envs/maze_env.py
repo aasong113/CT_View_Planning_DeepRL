@@ -1,3 +1,4 @@
+from importlib.resources import path
 import numpy as np
 
 import gym
@@ -28,6 +29,7 @@ class MazeEnv(gym.Env):
 
         self.target_x2 = target_x
         self.target_y2 = target_y
+        self.newBackground = None
         
         self.min_distance = 100000
         self.threshold_distance = 10
@@ -79,6 +81,7 @@ class MazeEnv(gym.Env):
         self.target_x2 = x
         self.target_y2 = y
         self.grid_view.set_target_pos(self.target_x2, self.target_y2)
+
 
 
     #TODO

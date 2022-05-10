@@ -38,6 +38,8 @@ class MazeEnv(gym.Env):
         self.state = None
         self.steps_beyond_done = None
 
+        self.newBackground = None
+
         # Simulation related variables.
         self.seed()
         self.reset()
@@ -56,6 +58,11 @@ class MazeEnv(gym.Env):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
+    def set_background_env(self, path):
+        self.newBackground = path
+        self.grid_view.set_background_real(self.newBackground)
+        print("New background Set!")
+
     def step(self, action):
         if isinstance(action, int):
             self.grid_view.move_robot(self.ACTION[action])
@@ -69,7 +76,9 @@ class MazeEnv(gym.Env):
         # i like this one better. 
         # had to hardcode some limits based on the image... not ideal, you know. but here we are
         
+        # centered
         if 38 < self.grid_view.get_avg_value < 44:
+        #if 45 < self.grid_view.get_avg_value < 50:
             reward = 1
             done = True
 

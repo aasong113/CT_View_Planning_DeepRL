@@ -17,6 +17,7 @@ class MazeView2D:
         self.__game_over = False
         self.__enable_render = enable_render
 
+        self.background_img_path = r'./cad_117_threshNoBin.png'
         
         self.__grid = Grid(grid_size = grid_size,has_loops=has_loops)
 
@@ -43,7 +44,7 @@ class MazeView2D:
             self.background = pygame.Surface(self.screen.get_size()).convert()
             # Change the background of the image
             #self.image = pygame.image.load(r'./cad_117_threshNoBin.png')
-            self.image = pygame.image.load(r'./cad_117_threshNoBin.png')
+            self.image = pygame.image.load(self.background_img_path)
             self.image = pygame.transform.scale(self.image,(self.screen.get_size()))
             
             self.background.fill((255, 255, 255))
@@ -178,6 +179,13 @@ class MazeView2D:
         h = int(self.CELL_H-1)
         pygame.draw.rect(self.grid_layer, colour + (transparency,), (x, y, w, h))
 
+    def set_background_real(self, path):
+        self.background_img_path = path
+        self.background = pygame.Surface(self.screen.get_size()).convert()
+        # Change the background of the image
+        self.image = pygame.image.load(self.background_img_path)
+        self.image = pygame.transform.scale(self.image,(self.screen.get_size()))
+        print(f"The path is actually set")
     @property
     def grid(self):
         return self.__grid
@@ -198,7 +206,8 @@ class MazeView2D:
             for j in range(int(self.CELL_H)):
                 iij = int(y0+j)
                 totval+= self.__get_value((iix,iij))
-                
+        
+        # print(totval/npix)
         return totval/npix
         
     
