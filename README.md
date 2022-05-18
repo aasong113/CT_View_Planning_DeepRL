@@ -17,23 +17,13 @@ Run the python notebook: Q_Learning.ipynb
 
 You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 
 
-<<<<<<< HEAD
-Well-tuned hyperparameters and loss function for the gym-child intensity based reward function for the thresholded environment 
-Add video
-=======
-
-https://github.com/aasong113/CT_View_Planning_DeepRL/blob/main/toy2_goodLoss.mp4
->>>>>>> 08e651c6e78f287912ea20ac198325798f676f74
+https://user-images.githubusercontent.com/54114352/169115926-36d0d335-324c-4656-8e5d-c0aec9f9d88a.mp4
 
 ### Deep Q-Learning: 
 
-This uses Deep Learning to approximate Q-learning. You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 
+
 
 #### Fully Connected DQN: 
 
-Flattens the rendered environment image as input into three fully connected layers with ReLU activation. The output is a the number of actions which are up, down, left, right. 
-
 #### Convolutional DQN:
-
-Takes the rendered environment image as input into 3 fully convolutional filters with 2D batchnorm, then outputs to a fully connected layer with output as the number of actions which are up, down, left, right. In the report, this method worked the best for both environments. 
  
