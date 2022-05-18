@@ -17,8 +17,13 @@ Run the python notebook: Q_Learning.ipynb
 
 You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 
 
+<<<<<<< HEAD
 Well-tuned hyperparameters and loss function for the gym-child intensity based reward function for the thresholded environment 
 Add video
+=======
+
+https://github.com/aasong113/CT_View_Planning_DeepRL/blob/main/toy2_goodLoss.mp4
+>>>>>>> 08e651c6e78f287912ea20ac198325798f676f74
 
 ### Deep Q-Learning: 
 
