@@ -21,9 +21,13 @@ https://user-images.githubusercontent.com/54114352/169115926-36d0d335-324c-4656-
 
 ### Deep Q-Learning: 
 
-
+This uses Deep Learning to approximate Q-learning. You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 
 
 #### Fully Connected DQN: 
 
+Flattens the rendered environment image as input into three fully connected layers with ReLU activation. The output is a the number of actions which are up, down, left, right. 
+
 #### Convolutional DQN:
+
+Takes the rendered environment image as input into 3 fully convolutional filters with 2D batchnorm, then outputs to a fully connected layer with output as the number of actions which are up, down, left, right. In the report, this method worked the best for both environments. 
  
