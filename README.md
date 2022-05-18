@@ -17,6 +17,9 @@ Run the python notebook: Q_Learning.ipynb
 
 You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 
 
+
+https://github.com/aasong113/CT_View_Planning_DeepRL/blob/main/toy2_goodLoss.mp4
+
 ### Deep Q-Learning: 
 
 
