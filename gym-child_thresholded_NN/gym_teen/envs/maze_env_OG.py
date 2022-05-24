@@ -81,11 +81,6 @@ class MazeEnv(gym.Env):
         self.target_x2 = x
         self.target_y2 = y
         self.grid_view.set_target_pos(self.target_x2, self.target_y2)
-    
-    def set_background_env(self, path):
-        self.newBackground = path
-        self.grid_view.set_background_real(self.newBackground)
-        print("New background Set!")
 
 
 

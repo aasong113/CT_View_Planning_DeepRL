@@ -246,16 +246,6 @@ class MazeView2D:
         pygame.draw.rect(self.grid_layer, colour + (transparency,), (x, y, w, h))
 
 
-    ### Set the background
-    def set_background_real(self, path):
-        self.background_img_path = path
-        self.background = pygame.Surface(self.screen.get_size()).convert()
-        # Change the background of the image
-        self.image = pygame.image.load(self.background_img_path)
-        self.image = pygame.transform.scale(self.image,(self.screen.get_size()))
-        print(f"The path is actually set")
-
-
     def __valid_move(self,cell_id,toadd):
         
         # need to check if any of the points will be out of bounds... 
