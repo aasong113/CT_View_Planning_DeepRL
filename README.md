@@ -19,6 +19,13 @@ You can choose from either a thresholded 9x9 grid intensity based reward functio
 
 https://user-images.githubusercontent.com/54114352/169115926-36d0d335-324c-4656-8e5d-c0aec9f9d88a.mp4
 
+
+##### Intensity Based Reward Function
+This is in the gym child environment. The agent learns to go to the FOV with the largest intensity. In a bone thresholded image, we assume that the center of the sacrum, in pelvic anatomy will have the highest intensity FOV. 
+
+##### Distance Based Reward Function
+This reward function is based on a given target position, which means it is a supervised method. The agent learns a path that minimizes the distance between the current position and target position. For this function a target (x,y) position must be inputted to the environment. One notable thing is that when training on different target FOV, the agent will learn the anatomy, such that it will traverse the pelvic anatomy from the illium to the sacrum. This means that it not only takes into account the a path that minimizes the number of steps to get to the target position, but also it learns that the pelvic anatomy is where we are interested and therefore, we must go along this structure to find our target FOV. 
+
 ### Deep Q-Learning: 
 
 This uses Deep Learning to approximate Q-learning. You can choose from either a thresholded 9x9 grid intensity based reward function environment, or a gray scale distance based reward function environment. 

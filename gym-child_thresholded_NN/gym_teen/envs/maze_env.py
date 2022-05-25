@@ -6,7 +6,7 @@ from gym import error, spaces, utils
 from gym.utils import seeding
 from gym_teen.envs.maze_view_2d import MazeView2D
 import matplotlib.pyplot as plt
-
+import matplotlib.patches as patches
 
 class MazeEnv(gym.Env):
     metadata = {
@@ -86,10 +86,6 @@ class MazeEnv(gym.Env):
         self.newBackground = path
         self.grid_view.set_background_real(self.newBackground)
         print("New background Set!")
-
-
-
-    #TODO
 
     def step(self, action):
         
@@ -173,6 +169,16 @@ class MazeEnv(gym.Env):
             self.grid_view.quit_game()
 
         return self.grid_view.update(mode)
+
+
+    def render_goal(self, mode = "human"):
+
+        fig, ax = plt.subplots()
+        ax.imshow(self.grid_view.update(mode))
+        rect = patches.Rectangle((self.target_x2, self.target_y2), 60, 60, linewidth = 1, edgecolor = 'r', facecolor = 'none')
+        ax.add_patch(rect)
+        plt.show()
+
     
     def close(self):
         import pygame
