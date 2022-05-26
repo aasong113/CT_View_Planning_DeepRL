@@ -175,7 +175,7 @@ class MazeEnv(gym.Env):
 
         fig, ax = plt.subplots()
         ax.imshow(self.grid_view.update(mode))
-        rect = patches.Rectangle((self.target_x2, self.target_y2), 60, 60, linewidth = 1, edgecolor = 'r', facecolor = 'none')
+        rect = patches.Rectangle((self.target_x2, self.target_y2), self.width, self.height, linewidth = 1, edgecolor = 'r', facecolor = 'none')
         ax.add_patch(rect)
         plt.show()
 
